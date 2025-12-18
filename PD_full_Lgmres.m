@@ -1,4 +1,15 @@
-function [logres,tiempoC,ciclos]= PD_full_Lgmres(A,b,mPD, alpha, delta,itermax)
+%<<<<<<< Updated upstream
+%modificado por jccf julio 2025
+
+%clear all
+%clc
+%This is a basic gmres program with restart
+%Inputs include A,x0,b,m,tol
+
+%function [logres,tiempoC,ciclos]= PD_full_Lgmres(A,b,mPD, alpha, delta,itermax)
+%=======
+function [logres,tiempoC,ciclos]= PD_full_Lgmres(A,b,mPD, lL, alpha, delta,itermax)
+%>>>>>>> Stashed changes
 
 tic;         %Time Control
 tol=1e-9;
@@ -209,7 +220,27 @@ while flag==0
 end  %while flag
 
 tiempo=toc     %Imprime tiempo de ejecucion
-
+l
+%subplot(1,1,1);
+%%semilogy(logres,'r')
+%%hold on
+%%%final_value = logres(end);
+%%%semilogy(length(logres), final_value, 'ro', 'MarkerSize', 10, 'LineWidth', 2);
+%%
+%%xlabel ('Número de Ciclos');
+%%ylabel ('Norma relativa del residuo');
+%%title('Convergencia del metodo GMRES(m),LGMRES(m,k) y LGMRES ADAPTATIVO')
+%semilogy(logres,'b')
+%title(Name_Matrix);
+%title(color);
+%xlabel('Number of Restart Cycle');ylabel('|rj|/|r0|');
+% legend(['PD-GMRES(27,alpha_{P}=', num2str(alpha0),',alpha_{D}=', num2str(delta0),'), t= ', num2str(tiempo)],'Location','Best');
+%title(['Example 2.2 - Complementary cycles of GMRES. Nl=', num2str(Nl),'; delta=', num2str(dl)])
+ % hold on
+%  subplot(2,1,2);
+%  plot(miteracion,color)
+%  xlabel('Number of restart cycles');ylabel('m, restart parameters');
+%   hold on
 lastcycle=size(logres,1);
 %tiempoC= [lastcycle tiempo];
 tiempoC= tiempo

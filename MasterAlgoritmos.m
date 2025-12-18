@@ -35,10 +35,11 @@ inicio=cputime;         %Control de tiempo de ejecucion
 %load watt_1.mat;
 %load b_watt_1.mat;
 %load memplus.mat;
+load 'data/cavity05.mat';
 %load cavity10.mat
 %load young3c.mat;
 %load b_young3c.mat;
-load sherman2.mat;
+%load 'data/sherman2.mat';
 %load example2_morgan.mat;
 %load matriz_16_05_3agrupado.mat;
 %load memplus.mat;
@@ -62,7 +63,7 @@ b=Problem.b;
 %   bmax=max(max(A));
 %   bmin=min(min(A));
 %   b=bmin*ones(n,1)+(bmax-bmin)*rand(n,1);
-Name_Matrix= 'Sherman2';
+Name_Matrix= 'cavity05';
 %_______________________________________________________________________________
 %% Parametros
        alpha=2; % Del artículo Improving...(NLA)
@@ -81,18 +82,18 @@ p=1;
 for c=1:1
 %% GMRES(m)
 %    for i=1:p
-         color_gmres='k--o';
-         m=30;
-         [time,logres_gmres]=gmres_m(A,b,m,itermax);
+%         color_gmres='k--o';
+%         m=30;
+%         [time,logres_gmres]=gmres_m(A,b,m,itermax);
 %         sol1(size(sol1,1)+1,:)= [time];
 %      end
 %_______________________________________________________________________________
 %% LGMRES(m,l)
 %      for i=1:p
-          color_lgmres='c--';
-          mL=28;%
-          lL=2;
-          [time, logres_lgmres]=lgmres(A,b,mL,lL,itermax);
+%          color_lgmres='c--';
+%          mL=28;%
+%          lL=2;
+%          [time, logres_lgmres]=lgmres(A,b,mL,lL,itermax);
 %          sol2(size(sol2,1)+1,:)= [time];
 %      end
 %
@@ -147,52 +148,52 @@ for c=1:1
 %     end
 %%
 %% SLGMRES-E-s(m,d,l)
-##    for i=1:p
-##
-##          color_slgmrese='c+:';
-##          mLE=28;
-##          dLE=2;
-##          lLE=2;
-##%         e=[0.03 0.05];
-##%    e=[0 1e-6 1e-3 0.01 0.03 0.05 0.1];
-##%         e=[0.01];
-##%          epsilon=e(1,c);
-##         epsilon=0.01;
-##          [time, logres_slgmrese]=Adaptive_lgmres_e_switch(A,b,mLE, lLE, dLE,itermax,epsilon);
-##          sol6(size(sol6,1)+1,:)= time;
-##     end
-##%%
+%%    for i=1:p
+%%
+%%          color_slgmrese='c+:';
+%%          mLE=28;
+%%          dLE=2;
+%%          lLE=2;
+%%%         e=[0.03 0.05];
+%%%    e=[0 1e-6 1e-3 0.01 0.03 0.05 0.1];
+%%%         e=[0.01];
+%%%          epsilon=e(1,c);
+%%         epsilon=0.01;
+%%          [time, logres_slgmrese]=Adaptive_lgmres_e_switch(A,b,mLE, lLE, dLE,itermax,epsilon);
+%%          sol6(size(sol6,1)+1,:)= time;
+%%     end
+%%%%
 %%       %PD-GMRES(m)
-##      for i=1:p
-         color_pd_gmres='r--+';
-         mPD=30;
-         %alpha=2;
-         [time, logres_pd_gmres]=PD_GMRES_m_1(A,b, mPD, alpha, delta,itermax);
- %       sol7(size(sol7,1)+1,:)= [time];
-##     end
+%%      for i=1:p
+%         color_pd_gmres='r--+';
+%         mPD=30;
+%         %alpha=2;
+%         [time, logres_pd_gmres]=PD_GMRES_m_1(A,b, mPD, alpha, delta,itermax);
+%       sol7(size(sol7,1)+1,:)= [time];
+%%     end
 %_______________________________________________________________________________
 %%    %PD-LGMRES(m,l) version 2025
-##      for i=1:p
-##        color_pd_lgmres='b--*';
-##         mPD=30;
-##          lL = 3;
-##         [logres,tiempoC,ciclos]=lgmres_adaptativo_copia(A,b, mPD, lL, alpha, delta,itermax);
-##%         sol7(size(sol7,1)+1,:)= [time];
-##    end
+%%      for i=1:p
+%%        color_pd_lgmres='b--*';
+%%         mPD=30;
+%%          lL = 3;
+%%         [logres,tiempoC,ciclos]=lgmres_adaptativo_copia(A,b, mPD, lL, alpha, delta,itermax);
+%%%         sol7(size(sol7,1)+1,:)= [time];
+%%    end
 %_______________________________________________________________________________
-   %%    %Adaptive-LGMRES(m,l) version 2025
+%%    %Adaptive-LGMRES(m,l) version 2025
 %      for i=1:p
-         color_pd_Algmres='b-.-';
-         mPD=20;
-          lL = 3;
-        [Alogres,tiempoC,ciclos]=pruebaALgmres(A,b, mPD, lL, alpha, delta,itermax);
+%         color_pd_Algmres='b-.-';
+%         mPD=20;
+%          lL = 3;
+%        [Alogres,tiempoC,ciclos]=pruebaALgmres(A,b, mPD, lL, alpha, delta,itermax);
 %         sol7(size(sol7,1)+1,:)= [time];
 %     end
 %_______________________________________________________________________________
    %%    %Adaptive-LGMRES(m,l) version 2025
 %      for i=1:p
          color_pd_flgmres='m--';
-         mPD=20;
+         mPD=27;
           lL = 3;
         % [Alogres,tiempoC,ciclos]=pruebaALgmres(A,b, mPD, lL, alpha, delta,itermax);
          [pd_flogres,tiempoC,ciclos]=PD_full_Lgmres(A,b, mPD, lL, alpha, delta,itermax);
@@ -259,27 +260,28 @@ end
 
  %semilogy(logres_gmres,'r')
  %% GMRES(m)
- semilogy(logres_gmres,color_gmres)
- hold on
+% semilogy(logres_gmres,color_gmres)
+% hold on
  %% LGMRES(m,l)
- semilogy(logres_lgmres,color_lgmres)
-% ## semilogy(logres_gmrese,color_gmrese)
-% ## semilogy(logres_lgmrese,color_lgmrese)
+% semilogy(logres_lgmres,color_lgmres)
+% %% semilogy(logres_gmrese,color_gmrese)
+% %% semilogy(logres_lgmrese,color_lgmrese)
 %  semilogy(logres_pd_lgmrese,color_pd_lgmrese)
 %% PD-GMRES
-semilogy(logres_pd_gmres,color_pd_gmres)
+% semilogy(logres_pd_gmres,color_pd_gmres)
 %% PD-ALGMRES
-semilogy(Alogres,color_pd_Algmres)
+% semilogy(Alogres,color_pd_Algmres)
 %% PD-fLGMRES
 semilogy(pd_flogres,color_pd_flgmres)
 title(Name_Matrix);
  xlabel('Number of Restart Cycle');ylabel('|rj|/|r0|');
-  legend('GMRES(30)', 'LGMRES(28,2)', 'PD-GMRES','PD-ALGMRES','PD-fLGMRES');
+  %legend('GMRES(30)', 'LGMRES(28,2)', 'PD-GMRES','PD-ALGMRES','PD-fLGMRES');
+  legend('PD-fLGMRES');
 % legend(
-% ##legend(['GMRES(30); cycle= ', num2str(sol1(1,1)),'; t= ', num2str(sol1(1,2)),' s.'], ...
-% ##  ['LGMRES(28,2); cycle= ', num2str(sol2(1,1)),'; t= ', num2str(sol2(1,2)),' s.'], ...
-% ##  ['GMRES-E(28,2); cycle= ', num2str(sol3(1,1)),'; t= ', num2str(sol3(1,2)),' s.'], ...
-% ##  ['LGMRES-E(27,2,1); cycle= ', num2str(sol4(1,1)),'; t= ', num2str(sol4(1,2)),' s.'], ...
+% %%legend(['GMRES(30); cycle= ', num2str(sol1(1,1)),'; t= ', num2str(sol1(1,2)),' s.'], ...
+% %%  ['LGMRES(28,2); cycle= ', num2str(sol2(1,1)),'; t= ', num2str(sol2(1,2)),' s.'], ...
+% %%  ['GMRES-E(28,2); cycle= ', num2str(sol3(1,1)),'; t= ', num2str(sol3(1,2)),' s.'], ...
+% %%  ['LGMRES-E(27,2,1); cycle= ', num2str(sol4(1,1)),'; t= ', num2str(sol4(1,2)),' s.'], ...
 % legend( ['A-PD-LGMRES-E(28,2,2); cycle= ', num2str(sol5(1,1)),'; t= ', num2str(sol5(1,2)),' s.'], ...
  %legend(['SLGMRES-E-s(28,2,2); cycle= ', num2str(sol6(1,1)),'; t= ', num2str(sol6(1,2)),' s.'], ...
 % ['PD-GMRES(30;2;0.8); cycle= ', num2str(sol7(1,1)),'; t= ', num2str(sol7(1,2)),' s.'],'Location','SouthOutside');
